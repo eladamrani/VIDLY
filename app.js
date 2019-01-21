@@ -3,6 +3,8 @@ const app = express();
 const Joi = require("joi");
 
 app.use(express.json());
+
+//PORT SETUP
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`PORT ${port} is connect...`);
@@ -11,9 +13,9 @@ app.listen(port, () => {
 // DATA
 const genres = [
   { id: 1, genre: "Action" },
-  { id: 1, genre: "Drama" },
-  { id: 1, genre: "Mystery" },
-  { id: 1, genre: "Comedy" }
+  { id: 2, genre: "Drama" },
+  { id: 3, genre: "Mystery" },
+  { id: 4, genre: "Comedy" }
 ];
 
 //GET HOMEPAGE
@@ -21,9 +23,16 @@ app.get("/", (req, res) => {
   res.send("HOME PAGE");
 });
 //GET ALL
-app.get("/api/genres", (req, res) => {});
+app.get("/api/genres", (req, res) => {
+  res.send(genres);
+});
 //GET ONE
-app.get("/api/genres/:id", (req, res) => {});
+app.get("/api/genres/:id", (req, res) => {
+  const genre = genres.find(c => c.id === parseInt(req.params.id));
+  if (!genre) return res.status(400).send(`Genre " ${genre} " not found`);
+
+  res.send(genre);
+});
 //POST
 app.get("/api/genres/:id", (req, res) => {});
 //PUT
