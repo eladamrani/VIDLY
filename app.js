@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const Joi = require("joi");
 
-app.use(express.json());
+app.use(express.json()); //Now you can use req.body
 
 //PORT SETUP
 const port = process.env.PORT || 3000;
@@ -18,17 +18,17 @@ const genres = [
   { id: 4, name: "Comedy" }
 ];
 
-//GET HOMEPAGE
+//GET HOMEPAGE - Done
 app.get("/", (req, res) => {
   res.send("HOME PAGE");
 });
 
-//GET ALL
+//GET ALL - Done
 app.get("/api/genres", (req, res) => {
   res.send(genres);
 });
 
-//GET ONE
+//GET ONE - Done
 app.get("/api/genres/:id", (req, res) => {
   const genre = genres.find(c => c.id === parseInt(req.params.id));
   if (!genre) return res.status(404).send(`Genre "${req.params.id}" not found`);
@@ -36,7 +36,7 @@ app.get("/api/genres/:id", (req, res) => {
   res.send(genre);
 });
 
-//POST - New
+//POST - New - Done
 app.post("/api/genres", (req, res) => {
   const { error } = validateGenre(req.body);
   if (error) return res.status(400).send(error.details[0].message);
@@ -50,7 +50,7 @@ app.post("/api/genres", (req, res) => {
   res.send(`Genre ${newGenre.name} is added`);
 });
 
-//PUT - Update
+//PUT - Update - Done
 app.put("/api/genres/:id", (req, res) => {
   const genre = genres.find(c => c.id === parseInt(req.params.id));
   if (!genre) return res.status(404).send(`Genre ${req.params.id} not found`);
@@ -62,7 +62,7 @@ app.put("/api/genres/:id", (req, res) => {
   res.send(genre);
 });
 
-//DELETE
+//DELETE - Done
 app.delete("/api/genres/:id", (req, res) => {
   const genre = genres.find(c => c.id === parseInt(req.params.id));
   if (!genre) return res.status(404).send(`Genre ${req.params.id} not found`);
@@ -73,6 +73,7 @@ app.delete("/api/genres/:id", (req, res) => {
   res.send(`Genre "${genre.name}" is removed`);
 });
 
+//Validate - Done
 function validateGenre(genre) {
   const schema = {
     name: Joi.string()
